@@ -9,7 +9,7 @@ import (
 )
 
 //http://35.247.155.162:6789 以及 ws://35.247.155.162:6790
-func main() {
+func main3() {
 	const platonEndpoint = "ws://35.247.155.162:6790"
 	web3g, err := web3go.New(platonEndpoint)
 

@@ -8,7 +8,7 @@ import (
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/network"
 )
 
-func main() {
+func main2() {
 	bytes, _ := hexutil.Decode("0x1963dd5b88accDA8F86C0D9A487c36cCDC0Aba0F")
 	b32Addr, _ := bech32util.ConvertAndEncode(network.MainNetHrp, bytes)
 	fmt.Println("bech32 addr: ", b32Addr)

@@ -7,7 +7,7 @@ import (
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/web3go"
 )
 
-func main() {
+func main4() {
 	const platonEndpoint = "http://127.0.0.1:6789"
 	web3g, err := web3go.New(platonEndpoint)
 

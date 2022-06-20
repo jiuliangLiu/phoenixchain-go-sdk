@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/big"
+	"strconv"
 
 	platon "github.com/jiuliangLiu/phoenixchain-go-sdk"
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/common"
@@ -34,11 +35,8 @@ func checkBlockNumber(pos interface{}) (interface{}, error) {
 			return nil, e
 		}
 	} else {
-		if blockNumber, ok := pos.(*big.Int); !ok {
-			return nil, e
-		} else {
-			return blockNumber, nil
-		}
+		bn := strconv.FormatInt(pos.(int64), 16)
+		return "0x" + bn, nil
 	}
 }
 

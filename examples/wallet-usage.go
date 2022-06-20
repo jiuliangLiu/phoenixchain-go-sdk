@@ -9,7 +9,7 @@ import (
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/web3go"
 )
 
-func main() {
+func main1() {
 	const mnemonic = "always brick access science decade nasty marriage attack fame topple pen add"
 	w, err := web3go.NewWalletByMnemonics(mnemonic)
 	if err != nil {
