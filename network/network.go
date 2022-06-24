@@ -10,7 +10,7 @@ const (
 var (
 	// TODO(liangqin.fan): 主网上线后, 需要更新为主网的真实chainid
 	MainNetChainId = big.NewInt(210309)
-	TestNetChainId = big.NewInt(210309)
+	TestNetChainId = big.NewInt(1025)
 )
 
 type Config struct {
@@ -20,7 +20,7 @@ type Config struct {
 
 var (
 	// TODO(liangqin.fan): 主网上线后, 需要更新为主网的正式RPC地址
-	DefaultTestNetConfig = Config{"http://35.247.155.162:6789", TestNetChainId}
+	DefaultTestNetConfig = Config{"http://39.104.68.32:6789", TestNetChainId}
 	DefaultMainNetConfig = Config{"http://35.247.155.162:6789", MainNetChainId}
 	//DefaultMainNetConfig = Config{"http://172.16.64.132:6789", MainNetChainId}
 )
@@ -49,10 +49,10 @@ var (
 	PposTestNetParams = &PposNetworkParameters{
 		DefaultTestNetConfig,
 		TestNetHrp,
-		"atx1zqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqp3yp7hw",
-		"atx1zqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzlh5ge3",
-		"atx1zqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrzpqayr",
-		"atx1zqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq97wrcc5",
-		"atx1zqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqxsakwkt",
+		"0x1000000000000000000000000000000000000001",
+		"0x1000000000000000000000000000000000000002",
+		"0x1000000000000000000000000000000000000004",
+		"0x1000000000000000000000000000000000000005",
+		"0x1000000000000000000000000000000000000003",
 	}
 )
