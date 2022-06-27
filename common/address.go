@@ -231,20 +231,20 @@ func (a *Address) UnmarshalText(input []byte) error {
 }
 
 // UnmarshalJSON parses a hash in hex syntax.
-func (a *Address) UnmarshalJSON(input []byte) error {
-	if !isString(input) {
-		return &json.UnmarshalTypeError{Value: "non-string", Type: addressT}
-	}
-	hrpDecode, v, err := bech32util.DecodeAndConvert(string(input[1 : len(input)-1]))
-	if err != nil {
-		return &json.UnmarshalTypeError{Value: err.Error(), Type: addressT}
-	}
-	if hrpDecode != GetAddressPrefix() {
-		return &json.UnmarshalTypeError{Value: fmt.Sprintf("hrpDecode not compare the current net,want %v,have %v", GetAddressPrefix(), hrpDecode), Type: addressT}
-	}
-	a.SetBytes(v)
-	return nil
-}
+// func (a *Address) UnmarshalJSON(input []byte) error {
+// 	if !isString(input) {
+// 		return &json.UnmarshalTypeError{Value: "non-string", Type: addressT}
+// 	}
+// 	hrpDecode, v, err := bech32util.DecodeAndConvert(string(input[1 : len(input)-1]))
+// 	if err != nil {
+// 		return &json.UnmarshalTypeError{Value: err.Error(), Type: addressT}
+// 	}
+// 	if hrpDecode != GetAddressPrefix() {
+// 		return &json.UnmarshalTypeError{Value: fmt.Sprintf("hrpDecode not compare the current net,want %v,have %v", GetAddressPrefix(), hrpDecode), Type: addressT}
+// 	}
+// 	a.SetBytes(v)
+// 	return nil
+// }
 
 func isString(input []byte) bool {
 	return len(input) >= 2 && input[0] == '"' && input[len(input)-1] == '"'
