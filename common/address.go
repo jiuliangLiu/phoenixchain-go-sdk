@@ -209,26 +209,26 @@ func (a *Address) SetBytes(b []byte) {
 }
 
 // MarshalText returns the hex representation of a.
-func (a Address) MarshalText() ([]byte, error) {
-	v, err := bech32util.ConvertAndEncode(GetAddressPrefix(), a.Bytes())
-	if err != nil {
-		return nil, err
-	}
-	return []byte(v), nil
-}
+// func (a Address) MarshalText() ([]byte, error) {
+// 	v, err := bech32util.ConvertAndEncode(GetAddressPrefix(), a.Bytes())
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return []byte(v), nil
+// }
 
 // UnmarshalText parses a hash in hex syntax.
-func (a *Address) UnmarshalText(input []byte) error {
-	hrpDecode, converted, err := bech32util.DecodeAndConvert(string(input))
-	if err != nil {
-		return err
-	}
-	if hrpDecode != GetAddressPrefix() {
-		return fmt.Errorf("the address not compare current net,want %v,have %v", GetAddressPrefix(), string(input))
-	}
-	a.SetBytes(converted)
-	return nil
-}
+// func (a *Address) UnmarshalText(input []byte) error {
+// 	hrpDecode, converted, err := bech32util.DecodeAndConvert(string(input))
+// 	if err != nil {
+// 		return err
+// 	}
+// 	if hrpDecode != GetAddressPrefix() {
+// 		return fmt.Errorf("the address not compare current net,want %v,have %v", GetAddressPrefix(), string(input))
+// 	}
+// 	a.SetBytes(converted)
+// 	return nil
+// }
 
 // UnmarshalJSON parses a hash in hex syntax.
 // func (a *Address) UnmarshalJSON(input []byte) error {
