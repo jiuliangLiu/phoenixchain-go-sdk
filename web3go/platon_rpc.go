@@ -125,7 +125,7 @@ func (platon *PlatonRPC) StorageAt(account string, key common.Hash, option inter
 		return nil, err
 	}
 
-	storage, err := platon.client.StorageAt(ctx, common.MustBech32ToAddress(account), key, blockNumber)
+	storage, err := platon.client.StorageAt(ctx, common.MustStringToAddress(account), key, blockNumber)
 	if err != nil {
 		return nil, err
 	}

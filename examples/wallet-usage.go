@@ -26,7 +26,7 @@ func main1() {
 		fmt.Printf("balance of %s is %s\n", addr, b.String())
 	}
 
-	digest, err := w.Transfer(accounts[0].Address, common.MustBech32ToAddress("lat1u3vrx4n0hcmgdjzqk299xcvl2p5fqen8skh03c"), big.NewInt(1000000000000000000))
+	digest, err := w.Transfer(accounts[0].Address, common.MustStringToAddress("lat1u3vrx4n0hcmgdjzqk299xcvl2p5fqen8skh03c"), big.NewInt(1000000000000000000))
 	if err != nil {
 		fmt.Println("transfer failed: ", err)
 		return

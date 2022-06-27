@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"testing"
 
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/web3go"
 )
 
-func main() {
+func TestGetBlockByNumber(t *testing.T) {
 	const alayaEndpoint = "http://39.104.62.41:6790"
 	web3g, _ := web3go.New(alayaEndpoint)
 	// a := big.NewInt(890)

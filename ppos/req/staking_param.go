@@ -65,7 +65,7 @@ type StakingParam struct {
 func (sp StakingParam) SubmitInputParameters() []interface{} {
 	return []interface{}{
 		codec.UInt16{ValueInner: sp.StakingAmountType.GetValue()},
-		common2.MustBech32ToAddress(sp.BenefitAddress),
+		common2.MustStringToAddress(sp.BenefitAddress),
 		codec.NodeId{HexStringId: sp.NodeId},
 		codec.Utf8String{ValueInner: sp.ExternalId},
 		codec.Utf8String{ValueInner: sp.NodeName},

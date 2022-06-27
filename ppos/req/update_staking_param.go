@@ -42,7 +42,7 @@ type UpdateStakingParam struct {
 
 func (usp UpdateStakingParam) SubmitInputParameters() []interface{} {
 	return []interface{}{
-		common2.MustBech32ToAddress(usp.BenifitAddress),
+		common2.MustStringToAddress(usp.BenifitAddress),
 		codec.NodeId{HexStringId: usp.NodeId},
 		codec.UInt32{ValueInner: usp.RewardPer},
 		codec.Utf8String{ValueInner: usp.ExternalId},

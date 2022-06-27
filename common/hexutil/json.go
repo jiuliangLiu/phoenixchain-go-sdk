@@ -309,6 +309,10 @@ func checkNumberText(input []byte) (raw []byte, err error) {
 	return input, nil
 }
 
+func WrapTypeError(err error, typ reflect.Type) error {
+	return wrapTypeError(err, typ)
+}
+
 func wrapTypeError(err error, typ reflect.Type) error {
 	if _, ok := err.(*decError); ok {
 		return &json.UnmarshalTypeError{Value: err.Error(), Type: typ}
@@ -318,4 +322,12 @@ func wrapTypeError(err error, typ reflect.Type) error {
 
 func errNonString(typ reflect.Type) error {
 	return &json.UnmarshalTypeError{Value: "non-string", Type: typ}
+}
+
+func ErrNonString(typ reflect.Type) error {
+	return errNonString(typ)
+}
+
+func BytesHave0xPrefix(input []byte) bool {
+	return bytesHave0xPrefix(input)
 }

@@ -37,10 +37,9 @@ func (c *Credentials) Address() common.Address {
 	return crypto.PubkeyToAddress(c.privateKey.PublicKey)
 }
 
-func (c *Credentials) Bech32Address() string {
+func (c *Credentials) HexAddress() string {
 	addr := c.Address()
-	common.SetAddressPrefix(c.hrp)
-	return addr.Bech32()
+	return addr.String()
 }
 
 func (c *Credentials) SignTx(tx *types.Transaction, chainID *big.Int) (*types.Transaction, error) {
@@ -53,9 +52,8 @@ func (c *Credentials) SignTx(tx *types.Transaction, chainID *big.Int) (*types.Tr
 	return signedTx, nil
 }
 
-func (c *Credentials) MustBech32ToAddress(addr string) common.Address {
-	common.SetAddressPrefix(c.hrp)
-	return common.MustBech32ToAddress(addr)
+func (c *Credentials) MustStringToAddress(addr string) common.Address {
+	return common.MustStringToAddress(addr)
 }
 
 func (c *Credentials) PrivateKey() *ecdsa.PrivateKey {

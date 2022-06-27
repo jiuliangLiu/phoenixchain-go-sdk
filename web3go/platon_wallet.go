@@ -70,7 +70,7 @@ func (w *PlatonWallet) Accounts() []accounts.Account {
 
 func (w *PlatonWallet) AccountByBech32(bech32addr string) (accounts.Account, error) {
 	walletAccounts := w.Accounts()
-	findAddr := common.MustBech32ToAddress(bech32addr)
+	findAddr := common.MustStringToAddress(bech32addr)
 	for _, a := range walletAccounts {
 		if bytes.Compare(a.Address.Bytes(), findAddr.Bytes()) == 0 {
 			return a, nil
@@ -151,8 +151,8 @@ func (w *PlatonWallet) BalanceOf(owner common.Address) (*big.Int, error) {
 		return nil, err
 	}
 
-	common.SetAddressPrefix(network.MainNetHrp)
-	addr := owner.Bech32()
+	// common.SetAddressPrefix(network.MainNetHrp)
+	addr := owner.Hex()
 
 	balance, err := client.BalanceAt(context.Background(), addr, "latest")
 	if err != nil {
@@ -175,8 +175,8 @@ func (w *PlatonWallet) Transfer(from common.Address, to common.Address, value *b
 	if err != nil {
 		return "", err
 	}
-	common.SetAddressPrefix(network.MainNetHrp)
-	fromAddr := from.Bech32()
+	// common.SetAddressPrefix(network.MainNetHrp)
+	fromAddr := from.Hex()
 
 	nonce, err := client.NonceAt(ctx, fromAddr, "pending")
 	if err != nil {

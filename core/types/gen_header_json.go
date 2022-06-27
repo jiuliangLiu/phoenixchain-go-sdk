@@ -74,7 +74,7 @@ func (h *Header) UnmarshalJSON(input []byte) error {
 	if len(dec.Coinbase) == 0 {
 		return errors.New("missing required field 'miner' for Header")
 	}
-	h.Coinbase = common.MustBech32ToAddress(dec.Coinbase)
+	h.Coinbase = common.MustStringToAddress(dec.Coinbase)
 	if dec.Root == nil {
 		return errors.New("missing required field 'stateRoot' for Header")
 	}

@@ -10,7 +10,6 @@ import (
 	common2 "github.com/jiuliangLiu/phoenixchain-go-sdk/common"
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/core/types"
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/ethclient"
-	"github.com/jiuliangLiu/phoenixchain-go-sdk/network"
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/ppos/typedefs"
 )
 
@@ -27,7 +26,7 @@ type CallResponse struct {
 }
 
 func (fe *FunctionExecutor) SendWithRaw(f *typedefs.Function) (json.RawMessage, error) {
-	to := fe.credentials.MustBech32ToAddress(fe.contractAddr)
+	to := fe.credentials.MustStringToAddress(fe.contractAddr)
 	data := f.ToBytes()
 
 	gasPrice := fe.getDefaultGasPrice(f)
@@ -91,7 +90,7 @@ func (fe *FunctionExecutor) doSendRawTx(chainId *big.Int, to common2.Address, da
 		}
 	}
 
-	fromAddr := fe.credentials.Bech32Address()
+	fromAddr := fe.credentials.HexAddress()
 	nonce, err := client.NonceAt(ctx, fromAddr, "pending")
 	if err != nil {
 		return nil, err
@@ -100,7 +99,7 @@ func (fe *FunctionExecutor) doSendRawTx(chainId *big.Int, to common2.Address, da
 	if gasLimit == 0 {
 		msg := platongosdk.CallMsg2{
 			From:     fromAddr,
-			To:       to.Bech32WithPrefix(network.MainNetHrp),
+			To:       to.Hex(),
 			Gas:      0,
 			GasPrice: gasPrice,
 			Value:    value,
@@ -122,7 +121,7 @@ func (fe *FunctionExecutor) doSendRawTx(chainId *big.Int, to common2.Address, da
 }
 
 func (fe *FunctionExecutor) CallWithRaw(f *typedefs.Function) ([]byte, error) {
-	to := fe.credentials.MustBech32ToAddress(fe.contractAddr)
+	to := fe.credentials.MustStringToAddress(fe.contractAddr)
 	data := f.ToBytes()
 
 	return fe.doCallRawTx(to, data)

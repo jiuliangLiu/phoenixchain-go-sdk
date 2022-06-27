@@ -3,8 +3,8 @@ package network
 import "math/big"
 
 const (
-	MainNetHrp = "lat"
-	TestNetHrp = "lax"
+	MainNetHrp = ""
+	TestNetHrp = ""
 )
 
 var (
@@ -20,7 +20,7 @@ type Config struct {
 
 var (
 	// TODO(liangqin.fan): 主网上线后, 需要更新为主网的正式RPC地址
-	DefaultTestNetConfig = Config{"http://39.104.68.32:6789", TestNetChainId}
+	DefaultTestNetConfig = Config{"http://39.104.68.32:6790", TestNetChainId}
 	DefaultMainNetConfig = Config{"http://35.247.155.162:6789", MainNetChainId}
 	//DefaultMainNetConfig = Config{"http://172.16.64.132:6789", MainNetChainId}
 )
