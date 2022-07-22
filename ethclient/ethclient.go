@@ -148,6 +148,11 @@ type rpcTransaction struct {
 	txExtraInfo
 }
 
+type RpcTransaction struct {
+	tx *types.Transaction
+	txExtraInfo
+}
+
 type txExtraInfo struct {
 	BlockNumber *string         `json:"blockNumber,omitempty"`
 	BlockHash   *common.Hash    `json:"blockHash,omitempty"`
@@ -162,8 +167,8 @@ func (tx *rpcTransaction) UnmarshalJSON(msg []byte) error {
 }
 
 // TransactionByHash returns the transaction with the given hash.
-func (ec *Client) TransactionByHash(ctx context.Context, hash common.Hash) (tx *rpcTransaction, isPending bool, err error) {
-	var json *rpcTransaction
+func (ec *Client) TransactionByHash(ctx context.Context, hash common.Hash) (tx *RpcTransaction, isPending bool, err error) {
+	var json *RpcTransaction
 	err = ec.c.CallContext(ctx, &json, "phoenixchain_getTransactionByHash", hash)
 	if err != nil {
 		return nil, false, err
