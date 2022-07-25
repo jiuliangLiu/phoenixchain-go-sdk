@@ -58,7 +58,7 @@ type Geb3 interface {
 	// Return header info by hash
 	HeaderByHash(hash common.Hash) (*types.Header, error)
 	// Returns the information about a transaction requested by transaction hash.
-	TransactionByHash(hash common.Hash) (extraInfo ethclient.TxExtraInfo, tx *types.Transaction, isPending bool, err error)
+	TransactionByHash(hash common.Hash) (tx *types.Transaction, isPending bool, err error)
 	// Returns information about a transaction by block hash and transaction index position.
 	TransactionByBlockHashAndIndex(blockHash common.Hash, index uint) (*types.Transaction, error)
 	// Returns information about a transaction by block number and transaction index position.
