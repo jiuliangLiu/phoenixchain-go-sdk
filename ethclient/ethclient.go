@@ -149,7 +149,7 @@ type rpcTransaction struct {
 }
 
 type RpcTransaction struct {
-	tx *types.Transaction
+	Tx *types.Transaction
 	txExtraInfo
 }
 
@@ -174,11 +174,11 @@ func (ec *Client) TransactionByHash(ctx context.Context, hash common.Hash) (tx *
 		return nil, false, err
 	} else if json == nil {
 		return nil, false, platon.NotFound
-	} else if _, r, _ := json.tx.RawSignatureValues(); r == nil {
+	} else if _, r, _ := json.Tx.RawSignatureValues(); r == nil {
 		return nil, false, fmt.Errorf("server returned transaction without signature")
 	}
 	if json.From != nil && json.BlockHash != nil {
-		setSenderFromServer(json.tx, *json.From, *json.BlockHash)
+		setSenderFromServer(json.Tx, *json.From, *json.BlockHash)
 	}
 	return json, json.BlockNumber == nil, nil
 }
