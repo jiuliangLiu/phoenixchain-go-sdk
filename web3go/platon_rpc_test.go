@@ -537,14 +537,14 @@ func TestWeb3g_TransactionByBlockNumberAndIndex(t *testing.T) {
 	DoBridgeHttpTest(respFunc, execFunc)
 }
 
-func TestWeb3g_TransactionByHash(t *testing.T) {
+func TestWeb3g_BlockInfoByTxHash(t *testing.T) {
 	var web3g, _ = New("http://39.104.62.41:6791")
-	tx, _, err := web3g.TransactionByTxHash(common.HexToHash("0x623c67fa72e03138d323d6c3a188194c797ad8f8cc7ce21c1a634038b6f94e59"))
+	tx, _, err := web3g.BlockInfoByTxHash(common.HexToHash("0x623c67fa72e03138d323d6c3a188194c797ad8f8cc7ce21c1a634038b6f94e59"))
 
 	if err != nil {
 		fmt.Println("get TransactionReceipt error:", zap.Any("err", err.Error()))
 	}
-	result, _ := tx.Tx.MarshalJSON()
+	result := tx.BlockNumber
 	fmt.Println("result:", result)
 }
 
