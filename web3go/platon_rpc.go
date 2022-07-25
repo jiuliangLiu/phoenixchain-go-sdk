@@ -206,7 +206,7 @@ func (platon *PlatonRPC) BlockByNumber(option interface{}) (string, error) {
 
 // to get transaction info by block hash by phoenixchain_getTransactionByHash
 // @param hash  the block hash.
-func (platon *PlatonRPC) TransactionByHash(hash common.Hash) (tx *ethclient.RpcTransaction, isPending bool, err error) {
+func (platon *PlatonRPC) TransactionByHash(hash common.Hash) (extraInfo ethclient.TxExtraInfo, tx *types.Transaction, isPending bool, err error) {
 	return platon.client.TransactionByHash(ctx, hash)
 }
 

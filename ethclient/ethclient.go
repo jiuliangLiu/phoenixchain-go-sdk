@@ -149,8 +149,14 @@ type rpcTransaction struct {
 }
 
 type RpcTransaction struct {
-	Tx *types.Transaction
-	txExtraInfo
+	tx *types.Transaction
+	TxExtraInfo
+}
+
+type TxExtraInfo struct {
+	BlockNumber *string         `json:"blockNumber,omitempty"`
+	BlockHash   *common.Hash    `json:"blockHash,omitempty"`
+	From        *common.Address `json:"from,omitempty"`
 }
 
 type txExtraInfo struct {
@@ -167,20 +173,20 @@ func (tx *rpcTransaction) UnmarshalJSON(msg []byte) error {
 }
 
 // TransactionByHash returns the transaction with the given hash.
-func (ec *Client) TransactionByHash(ctx context.Context, hash common.Hash) (tx *RpcTransaction, isPending bool, err error) {
+func (ec *Client) TransactionByHash(ctx context.Context, hash common.Hash) (extraInfo TxExtraInfo, tx *types.Transaction, isPending bool, err error) {
 	var json *RpcTransaction
 	err = ec.c.CallContext(ctx, &json, "phoenixchain_getTransactionByHash", hash)
 	if err != nil {
-		return nil, false, err
+		return extraInfo, nil, false, err
 	} else if json == nil {
-		return nil, false, platon.NotFound
-	} else if _, r, _ := json.Tx.RawSignatureValues(); r == nil {
-		return nil, false, fmt.Errorf("server returned transaction without signature")
+		return extraInfo, nil, false, platon.NotFound
+	} else if _, r, _ := json.tx.RawSignatureValues(); r == nil {
+		return extraInfo, nil, false, fmt.Errorf("server returned transaction without signature")
 	}
 	if json.From != nil && json.BlockHash != nil {
-		setSenderFromServer(json.Tx, *json.From, *json.BlockHash)
+		setSenderFromServer(json.tx, *json.From, *json.BlockHash)
 	}
-	return json, json.BlockNumber == nil, nil
+	return json.TxExtraInfo, json.tx, json.BlockNumber == nil, nil
 }
 
 // TransactionSender returns the sender address of the given transaction. The transaction
