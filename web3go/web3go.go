@@ -59,6 +59,8 @@ type Geb3 interface {
 	HeaderByHash(hash common.Hash) (*types.Header, error)
 	// Returns the information about a transaction requested by transaction hash.
 	TransactionByHash(hash common.Hash) (tx *types.Transaction, isPending bool, err error)
+	// Returns the information about a transaction requested by transaction hash.
+	TransactionByTxHash(hash common.Hash) (tx *ethclient.RpcTransaction, isPending bool, err error)
 	// Returns information about a transaction by block hash and transaction index position.
 	TransactionByBlockHashAndIndex(blockHash common.Hash, index uint) (*types.Transaction, error)
 	// Returns information about a transaction by block number and transaction index position.

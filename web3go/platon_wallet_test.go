@@ -61,7 +61,7 @@ func TestPlatonWallet_BalanceOf(t *testing.T) {
 	w, _ := NewWalletByMnemonics(mnemonic)
 	w.SetNetworkCfg(&network.DefaultTestNetConfig)
 
-	addr := common.MustBech32ToAddress("lat1p4840tf5ej7uknq6lfufyuqflmfhk6tqjf22ch")
+	addr := common.MustStringToAddress("lat1p4840tf5ej7uknq6lfufyuqflmfhk6tqjf22ch")
 
 	balance, _ := w.BalanceOf(addr)
 	if balance.Cmp(big.NewInt(0)) != 0 {

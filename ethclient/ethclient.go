@@ -149,7 +149,7 @@ type rpcTransaction struct {
 }
 
 type RpcTransaction struct {
-	tx *types.Transaction
+	Tx *types.Transaction
 	TxExtraInfo
 }
 
@@ -187,6 +187,26 @@ func (ec *Client) TransactionByHash(ctx context.Context, hash common.Hash) (tx *
 		setSenderFromServer(json.tx, *json.From, *json.BlockHash)
 	}
 	return json.tx, json.BlockNumber == nil, nil
+}
+
+// TransactionByTxHash returns the transaction with the given hash.
+func (ec *Client) TransactionByTxHash(ctx context.Context, hash common.Hash) (tx *RpcTransaction, isPending bool, err error) {
+	var rawJSON *rpcTransaction
+	var json RpcTransaction
+	err = ec.c.CallContext(ctx, &rawJSON, "phoenixchain_getTransactionByHash", hash)
+	if err != nil {
+		return nil, false, err
+	} else if rawJSON == nil {
+		return nil, false, platon.NotFound
+	} else if _, r, _ := rawJSON.tx.RawSignatureValues(); r == nil {
+		return nil, false, fmt.Errorf("server returned transaction without signature")
+	}
+	if rawJSON.From != nil && rawJSON.BlockHash != nil {
+		setSenderFromServer(rawJSON.tx, *rawJSON.From, *rawJSON.BlockHash)
+	}
+	json.TxExtraInfo = TxExtraInfo(rawJSON.txExtraInfo)
+	json.Tx = rawJSON.tx
+	return &json, json.BlockNumber == nil, nil
 }
 
 // TransactionSender returns the sender address of the given transaction. The transaction

@@ -3,6 +3,7 @@ package web3go
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"math/big"
 	"net/http"
 	"net/http/httptest"
@@ -13,6 +14,7 @@ import (
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/common/hexutil"
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/core/types"
 	"github.com/jiuliangLiu/phoenixchain-go-sdk/params"
+	"go.uber.org/zap"
 )
 
 type TResponse struct {
@@ -264,9 +266,9 @@ func TestWeb3g_CallContract(t *testing.T) {
 	var respFunc = GenRespFunction(expect)
 	var execFunc ExecFunc = func(geb3 Geb3) {
 		gas := uint64(1000)
-		to := common.MustBech32ToAddress("lat1506p5uyejv2eq9xa35vg6g4puam6xhwf073xcp")
+		to := common.MustStringToAddress("lat1506p5uyejv2eq9xa35vg6g4puam6xhwf073xcp")
 		var req = phoenixchain_go_sdk.CallMsg{
-			From:     common.MustBech32ToAddress("lat1t3jsgu5km95aeqfqxx396k46e2ejxcg442ltq0"),
+			From:     common.MustStringToAddress("lat1t3jsgu5km95aeqfqxx396k46e2ejxcg442ltq0"),
 			To:       &to,
 			Gas:      gas,
 			GasPrice: big.NewInt(1000000000),
@@ -432,42 +434,42 @@ func TestWeb3g_CodeAt(t *testing.T) {
 	DoBridgeHttpTest(respFunc, execFunc)
 }
 
-func TestWeb3g_GetFilterChanges(t *testing.T) {
-	expect := []types.Log{types.Log{}}
+// func TestWeb3g_GetFilterChanges(t *testing.T) {
+// 	expect := []types.Log{types.Log{}}
 
-	var respFunc = GenRespFunction(expect)
+// 	var respFunc = GenRespFunction(expect)
 
-	var execFunc ExecFunc = func(geb3 Geb3) {
+// 	var execFunc ExecFunc = func(geb3 Geb3) {
 
-		resp, _ := geb3.GetFilterChanges(big.NewInt(10))
+// 		resp, _ := geb3.GetFilterChanges(big.NewInt(10))
 
-		if len(resp) != len(expect) {
-			t.Errorf("GetFilterChanges failed.")
-		}
-	}
+// 		if len(resp) != len(expect) {
+// 			t.Errorf("GetFilterChanges failed.")
+// 		}
+// 	}
 
-	DoBridgeHttpTest(respFunc, execFunc)
-}
+// 	DoBridgeHttpTest(respFunc, execFunc)
+// }
 
-func TestWeb3g_GetFilterLogs(t *testing.T) {
-	expect := []types.Log{types.Log{}}
+// func TestWeb3g_GetFilterLogs(t *testing.T) {
+// 	expect := []types.Log{types.Log{}}
 
-	var respFunc = GenRespFunction(expect)
+// 	var respFunc = GenRespFunction(expect)
 
-	var execFunc ExecFunc = func(geb3 Geb3) {
+// 	var execFunc ExecFunc = func(geb3 Geb3) {
 
-		resp, _ := geb3.GetFilterLogs(big.NewInt(10))
+// 		resp, _ := geb3.GetFilterLogs(big.NewInt(10))
 
-		if len(resp) != len(expect) {
-			t.Errorf("GetFilterLogs failed.")
-		}
-	}
+// 		if len(resp) != len(expect) {
+// 			t.Errorf("GetFilterLogs failed.")
+// 		}
+// 	}
 
-	DoBridgeHttpTest(respFunc, execFunc)
-}
+// 	DoBridgeHttpTest(respFunc, execFunc)
+// }
 
 func TestWeb3g_GetLogs(t *testing.T) {
-	expect := []types.Log{types.Log{}}
+	expect := []types.Log{{}}
 
 	var respFunc = GenRespFunction(expect)
 
@@ -535,21 +537,16 @@ func TestWeb3g_TransactionByBlockNumberAndIndex(t *testing.T) {
 	DoBridgeHttpTest(respFunc, execFunc)
 }
 
-//func TestWeb3g_TransactionByHash(t *testing.T) {
-//	expect := types.Transaction{}
-//
-//	var respFunc = GenRespFunction(expect)
-//	var execFunc ExecFunc = func(geb3 Geb3) {
-//
-//		resp, _, _ := geb3.TransactionByHash(common.HexToHash("0x000000000000000000000"))
-//
-//		if resp.Hash() != expect.Hash() {
-//			t.Errorf("TransactionByHash failed.")
-//		}
-//	}
-//
-//	DoBridgeHttpTest(respFunc, execFunc)
-//}
+func TestWeb3g_TransactionByHash(t *testing.T) {
+	var web3g, _ = New("http://39.104.62.41:6791")
+	tx, _, err := web3g.TransactionByTxHash(common.HexToHash("0x623c67fa72e03138d323d6c3a188194c797ad8f8cc7ce21c1a634038b6f94e59"))
+
+	if err != nil {
+		fmt.Println("get TransactionReceipt error:", zap.Any("err", err.Error()))
+	}
+	result, _ := tx.Tx.MarshalJSON()
+	fmt.Println("result:", result)
+}
 
 func TestWeb3g_TransactionReceipt(t *testing.T) {
 	expect := types.Receipt{}
@@ -565,54 +562,54 @@ func TestWeb3g_TransactionReceipt(t *testing.T) {
 	DoBridgeHttpTest(respFunc, execFunc)
 }
 
-func TestWeb3g_NewBlockFilter(t *testing.T) {
-	expect := (*hexutil.Big)(big.NewInt(100))
-	var respFunc = GenRespFunction(expect)
-	var execFunc ExecFunc = func(geb3 Geb3) {
-		resp, _ := geb3.NewBlockFilter()
+// func TestWeb3g_NewBlockFilter(t *testing.T) {
+// 	expect := (*hexutil.Big)(big.NewInt(100))
+// 	var respFunc = GenRespFunction(expect)
+// 	var execFunc ExecFunc = func(geb3 Geb3) {
+// 		resp, _ := geb3.NewBlockFilter()
 
-		if resp.Cmp(expect.ToInt()) != 0 {
-			t.Errorf("NewBlockFilter failed.")
-		}
-	}
+// 		if resp.Cmp(expect.ToInt()) != 0 {
+// 			t.Errorf("NewBlockFilter failed.")
+// 		}
+// 	}
 
-	DoBridgeHttpTest(respFunc, execFunc)
-}
+// 	DoBridgeHttpTest(respFunc, execFunc)
+// }
 
-func TestWeb3g_NewFilter(t *testing.T) {
-	expect := (*hexutil.Big)(big.NewInt(100))
-	var respFunc = GenRespFunction(expect)
-	var execFunc ExecFunc = func(geb3 Geb3) {
-		q := phoenixchain_go_sdk.FilterQuery{
-			BlockHash: nil,
-			FromBlock: nil,
-			ToBlock:   nil,
-			Addresses: nil,
-			Topics:    nil,
-		}
-		resp, _ := geb3.NewFilter(q)
+// func TestWeb3g_NewFilter(t *testing.T) {
+// 	expect := (*hexutil.Big)(big.NewInt(100))
+// 	var respFunc = GenRespFunction(expect)
+// 	var execFunc ExecFunc = func(geb3 Geb3) {
+// 		q := phoenixchain_go_sdk.FilterQuery{
+// 			BlockHash: nil,
+// 			FromBlock: nil,
+// 			ToBlock:   nil,
+// 			Addresses: nil,
+// 			Topics:    nil,
+// 		}
+// 		resp, _ := geb3.NewFilter(q)
 
-		if resp.Cmp(expect.ToInt()) != 0 {
-			t.Errorf("NewFilter failed.")
-		}
-	}
+// 		if resp.Cmp(expect.ToInt()) != 0 {
+// 			t.Errorf("NewFilter failed.")
+// 		}
+// 	}
 
-	DoBridgeHttpTest(respFunc, execFunc)
-}
+// 	DoBridgeHttpTest(respFunc, execFunc)
+// }
 
-func TestWeb3g_NewPendingTransactionFilter(t *testing.T) {
-	expect := (*hexutil.Big)(big.NewInt(100))
-	var respFunc = GenRespFunction(expect)
-	var execFunc ExecFunc = func(geb3 Geb3) {
-		resp, _ := geb3.NewPendingTransactionFilter()
+// func TestWeb3g_NewPendingTransactionFilter(t *testing.T) {
+// 	expect := (*hexutil.Big)(big.NewInt(100))
+// 	var respFunc = GenRespFunction(expect)
+// 	var execFunc ExecFunc = func(geb3 Geb3) {
+// 		resp, _ := geb3.NewPendingTransactionFilter()
 
-		if resp.Cmp(expect.ToInt()) != 0 {
-			t.Errorf("NewPendingTransactionFilter failed.")
-		}
-	}
+// 		if resp.Cmp(expect.ToInt()) != 0 {
+// 			t.Errorf("NewPendingTransactionFilter failed.")
+// 		}
+// 	}
 
-	DoBridgeHttpTest(respFunc, execFunc)
-}
+// 	DoBridgeHttpTest(respFunc, execFunc)
+// }
 
 func TestWeb3g_ProtocolVersion(t *testing.T) {
 	expect := hexutil.Uint64(1)
@@ -690,16 +687,16 @@ func TestWeb3g_Syncing(t *testing.T) {
 	DoBridgeHttpTest(respFunc, execFunc)
 }
 
-func TestWeb3g_UninstallFilter(t *testing.T) {
-	expect := true
-	var respFunc = GenRespFunction(expect)
-	var execFunc ExecFunc = func(geb3 Geb3) {
-		resp := geb3.UninstallFilter(big.NewInt(100))
+// func TestWeb3g_UninstallFilter(t *testing.T) {
+// 	expect := true
+// 	var respFunc = GenRespFunction(expect)
+// 	var execFunc ExecFunc = func(geb3 Geb3) {
+// 		resp := geb3.UninstallFilter(big.NewInt(100))
 
-		if resp != expect {
-			t.Errorf("UninstallFilter failed.")
-		}
-	}
+// 		if resp != expect {
+// 			t.Errorf("UninstallFilter failed.")
+// 		}
+// 	}
 
-	DoBridgeHttpTest(respFunc, execFunc)
-}
+// 	DoBridgeHttpTest(respFunc, execFunc)
+// }
